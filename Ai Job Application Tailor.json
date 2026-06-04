@@ -1,0 +1,357 @@
+{
+  "name": "Ai Job Application Tailor",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze-application",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -176,
+        16
+      ],
+      "id": "d09caa0d-d1dc-44b4-8c25-e8ab9fb0793e",
+      "name": "Webhook",
+      "webhookId": "0ce97ce6-ac2a-483c-9217-dd67ba3644d7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User CV:\n{{ $('Webhook').item.json.body.cv_text }}\n\nJob Description:\n{{ $('Webhook').item.json.body.job_description }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        16
+      ],
+      "id": "3a744320-d63c-442b-9a3f-d8f5707a41f6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"score\": \"85%\",\n  \"suggestions\": [\n    \"اقتراح أول هنا باللغة العربية لتطوير السيرة الذاتية الكلمات المفتاحية الناقصة\",\n    \"اقتراح ثانٍ هنا يتعلق بالخبرات أو الأدوات المطلوبة للوظيفة\"\n  ],\n  \"cold_email\": \"Subject: Passionate .NET Developer Interesed in [Job Title] Role\\n\\nDear Hiring Team,\\n\\nI am writing to express my strong interest in the backend position...\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        224
+      ],
+      "id": "66d4a2b9-7690-49ec-90ae-0d5bda433222",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        224
+      ],
+      "id": "9348bb7d-ef60-47d7-a43a-27d48eeabbf6",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "HFIxrpAdwUGTKEve",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        144,
+        432
+      ],
+      "id": "ab944c11-33d6-46cd-a57e-a07b4d908d68",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "HFIxrpAdwUGTKEve",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        384,
+        16
+      ],
+      "id": "8f6c3894-4a60-464d-a853-a67a3210eea6",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze-application",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        912
+      ],
+      "id": "d77194bc-fdfa-48ab-93b6-3d1a38c2a8e5",
+      "name": "Webhook1",
+      "webhookId": "0ce97ce6-ac2a-483c-9217-dd67ba3644d7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User CV:\n{{ $('Webhook1').item.json.body.cv_text }}\n\nJob Description:\n{{ $('Webhook1').item.json.body.job_description }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        992,
+        912
+      ],
+      "id": "3eaa2871-30dd-4dd5-9084-05caff2b23dc",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"score\": \"85%\",\n  \"suggestions\": [\n    \"اقتراح أول هنا باللغة العربية لتطوير السيرة الذاتية الكلمات المفتاحية الناقصة\",\n    \"اقتراح ثانٍ هنا يتعلق بالخبرات أو الأدوات المطلوبة للوظيفة\"\n  ],\n  \"cold_email\": \"Subject: Passionate .NET Developer Interesed in [Job Title] Role\\n\\nDear Hiring Team,\\n\\nI am writing to express my strong interest in the backend position...\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1136,
+        1152
+      ],
+      "id": "bd1fc1b4-ef6e-46cc-93d9-e175d0c656ea",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        1168
+      ],
+      "id": "9ebb519c-33c8-4208-a73c-f3af92ff41c4",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "HFIxrpAdwUGTKEve",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1168,
+        1328
+      ],
+      "id": "8052d5f2-b8e7-405e-bd92-9621a19e2da2",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "HFIxrpAdwUGTKEve",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1392,
+        912
+      ],
+      "id": "c97ae83e-12d5-4af1-b90c-35f47b7372b4",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "cv_file",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        912
+      ],
+      "id": "0ffd6852-540b-458a-991f-ba78725c4381",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "217848cd-c9cb-41d3-8319-f7fd2cca1aee",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "35ffc0577cf3f30e23cc1809dc677fdf3db4ee479a70f692084d30f787d60fc0"
+  },
+  "id": "a4zEKpYFuMndcDnL",
+  "tags": []
+}
