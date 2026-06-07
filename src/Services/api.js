@@ -9,7 +9,7 @@ const DEFAULT_WEBHOOK_PATH = '/webhook/analyze-application';
 const PRODUCTION_URL = import.meta.env.VITE_N8N_URL || DEFAULT_N8N_URL;
 const WEBHOOK_PATH = import.meta.env.VITE_N8N_WEBHOOK_PATH || DEFAULT_WEBHOOK_PATH;
 const API_URL = `${PRODUCTION_URL.replace(/\/$/, '')}${WEBHOOK_PATH.startsWith('/') ? WEBHOOK_PATH : `/${WEBHOOK_PATH}`}`;
-const TEST_API_URL = TestUrl;
+//const TEST_API_URL = TestUrl;
 
 export const analyzeApplication = async (cvText, jobDescription, cvFile = null) => {
   try {
