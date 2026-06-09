@@ -27,8 +27,7 @@ export const analyzeApplication = async (cvText, jobDescription, cvFile = null) 
       const formData = new FormData();
       
       try {
-        // الحل السحري لكروم أندرويد:
-        // نقرأ محتوى الملف فوراً كـ ArrayBuffer ونحوله لـ Blob نقي مستقل
+       
         const fileBuffer = await cvFile.arrayBuffer();
         const secureBlob = new Blob([fileBuffer], { type: cvFile.type || 'application/pdf' });
         

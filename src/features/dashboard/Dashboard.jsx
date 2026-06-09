@@ -157,12 +157,7 @@ export default function Dashboard({ onAnalyze }) {
                   </div>
                 </div>
 
-                <div className="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-5 text-sm leading-6 text-slate-300">
-                  <p className="font-semibold text-slate-100">Ready for your analyzeApplication function</p>
-                  <p className="mt-2">
-                    In App.jsx, pass your existing function into <span className="text-blue-300">onAnalyze</span> and this hero will call it directly.
-                  </p>
-                </div>
+              
               </div>
             </div>
 
