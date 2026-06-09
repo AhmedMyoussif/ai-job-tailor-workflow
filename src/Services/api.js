@@ -25,13 +25,31 @@ export const analyzeApplication = async (cvText, jobDescription, cvFile = null) 
     let response;
     if (cvFile) {
       const formData = new FormData();
-      formData.append('cv_file', cvFile);
+      
+      try {
+        // الحل السحري لكروم أندرويد:
+        // نقرأ محتوى الملف فوراً كـ ArrayBuffer ونحوله لـ Blob نقي مستقل
+        const fileBuffer = await cvFile.arrayBuffer();
+        const secureBlob = new Blob([fileBuffer], { type: cvFile.type || 'application/pdf' });
+        
+        // تأكد من أن اسم الحقل 'cv_file' يطابق تماماً ما تتوقعه في نود الـ Webhook في n8n
+        formData.append('cv_file', secureBlob, cvFile.name || 'resume.pdf');
+      } catch (fileError) {
+        console.warn('Fallback to direct file object due to reading error:', fileError);
+        formData.append('cv_file', cvFile);
+      }
+
       formData.append('job_description', jobDescription || '');
       formData.append('cv_text', cvText || '');
 
-      // Let the browser set multipart/form-data with the correct boundary.
-      console.log('Posting multipart FormData to n8n');
-      response = await axios.post(API_URL, formData);
+      console.log('Posting multipart FormData to n8n safely');
+      
+      // نرسل الـ formData باستخدام Axios بشكل طبيعي
+      response = await axios.post(API_URL, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
     } else {
       console.log('Posting JSON to n8n');
       response = await axios.post(API_URL, {
@@ -46,7 +64,6 @@ export const analyzeApplication = async (cvText, jobDescription, cvFile = null) 
 
     return response.data;
   } catch (error) {
-    // Log useful debug info for deployment troubleshooting
     console.error('Error connecting to n8n Webhook', {
       url: API_URL,
       status: error?.response?.status,
